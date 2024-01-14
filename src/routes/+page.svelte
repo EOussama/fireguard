@@ -1,18 +1,32 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { TConfig } from '$lib/core/types/config.type';
-	import { error, redirect } from '@sveltejs/kit';
+	import { EventType } from '$lib/core/enums/event-type.enum';
 
 	let config: TConfig;
 
 	onMount(() => {
-		const sender = window.opener;
+		if (window.opener) {
+			window.opener.postMessage({ type: EventType.Loaded, payload: { loaded: true } }, '*');
 
-		// if (sender) {
-		config = {
-			appName: 'Clave'
-		};
-		// }
+			window.addEventListener('message', (e) => {
+				if (e.isTrusted) {
+					switch (e.data.type) {
+						case EventType.Config: {
+							const data = e.data.payload;
+							config = { ...data };
+
+							// Auth logic
+
+							const payload = { token: '...' };
+							const response = { type: EventType.AuthSucceded, payload };
+
+							window.opener.postMessage(response, '*');
+						}
+					}
+				}
+			});
+		}
 	});
 </script>
 
@@ -28,7 +42,7 @@
 				Powered by <a target="_blank" href="https://github.com/EOussama/fireguard">Fireguard</a>.
 			</p>
 		{:else}
-			<p>Fireguard has to be opened by a master page.</p>
+			<p>Fireguard has to be opened by an external page.</p>
 		{/if}
 	</div>
 
