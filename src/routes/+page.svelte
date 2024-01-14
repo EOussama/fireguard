@@ -1,20 +1,38 @@
 <script lang="ts">
-	const appName = 'Fireguard';
+	import { onMount } from 'svelte';
+	import type { TConfig } from '$lib/core/types/config.type';
+	import { error, redirect } from '@sveltejs/kit';
+
+	let config: TConfig;
+
+	onMount(() => {
+		const sender = window.opener;
+
+		if (sender) {
+			config = {
+				appName: 'Fireguard'
+			};
+		}
+	});
 </script>
 
 <div class="content">
-	<div class="content__icon">
-		<img alt="Login Icon" src="./images/logo.svg" />
-	</div>
+	{#if config}
+		<div class="content__icon">
+			<img alt="Login Icon" src="./images/logo.svg" />
+		</div>
 
-	<div class="content__message">
-		<p>Google Authentication for <b>{appName}</b></p>
+		<div class="content__message">
+			<p>Google Authentication for <b>{config.appName}</b></p>
 
-		<p class="content__note">
-			Make sure you're not blocking popups on this page so that the Google OAuth window is not
-			blocked.
-		</p>
-	</div>
+			<p class="content__note">
+				Make sure you're not blocking popups on this page so that the Google OAuth window is not
+				blocked.
+			</p>
+		</div>
+	{:else}
+		Bruh
+	{/if}
 </div>
 
 <style lang="scss">
