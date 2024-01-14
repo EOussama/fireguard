@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { PUBLIC_VERSION } from '$env/static/public';
 
 	import { EventType } from '$lib/core/enums/event.enum';
 	import type { TConfig } from '$lib/core/types/config.type';
@@ -15,6 +16,7 @@
 				EventHelper.send(EventType.AuthSucceded, { token: '...' });
 			});
 		}
+		config = { appName: 'Clave' };
 	});
 </script>
 
@@ -26,15 +28,16 @@
 	<div class="content__message">
 		{#if config}
 			<p>Authentication for <b>{config.appName}</b>.</p>
-			<p>
-				Powered by <a target="_blank" href="https://github.com/EOussama/fireguard">Fireguard</a>.
-			</p>
 		{:else}
 			<p>Fireguard has to be opened by an external page.</p>
 		{/if}
 	</div>
 
 	<p class="content__note">Make sure you're not blocking popups on this page.</p>
+	<p class="content__note">
+		Powered by <a target="_blank" href="https://github.com/EOussama/fireguard">Fireguard</a>
+		v{PUBLIC_VERSION}
+	</p>
 </div>
 
 <style lang="scss">
@@ -64,45 +67,45 @@
 			font-size: 16px;
 			font-weight: var(--font-weight-regular);
 
-			margin-bottom: 20px;
+			margin: 10px 0;
 
 			b {
 				font-weight: var(--font-weight-bold);
-			}
-
-			a {
-				padding: 0 2px;
-				position: relative;
-
-				text-decoration: none;
-				color: hsl(var(--color-primary-hsl), 30%);
-
-				&::before {
-					content: '';
-
-					top: 0;
-					left: 0;
-					position: absolute;
-
-					width: 0;
-					height: 100%;
-
-					border-radius: 5px;
-					background-color: rgba(var(--color-primary-rgb), 0.15);
-
-					transition-duration: 0.2s;
-					transition-property: width;
-				}
-
-				&:hover::before {
-					width: 100%;
-				}
 			}
 		}
 
 		&__note {
 			color: grey;
 			font-size: 12px;
+		}
+
+		a {
+			padding: 0 2px;
+			position: relative;
+
+			text-decoration: none;
+			color: hsl(var(--color-primary-hsl), 35%);
+
+			&::before {
+				content: '';
+
+				top: 0;
+				left: 0;
+				position: absolute;
+
+				width: 0;
+				height: 100%;
+
+				border-radius: 5px;
+				background-color: rgba(var(--color-primary-rgb), 0.15);
+
+				transition-duration: 0.2s;
+				transition-property: width;
+			}
+
+			&:hover::before {
+				width: 100%;
+			}
 		}
 	}
 </style>
