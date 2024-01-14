@@ -4,7 +4,7 @@
 
 <div class="content">
 	<div class="content__icon">
-		<img alt="Login Icon" src="./images/login.png" />
+		<img alt="Login Icon" src="./images/logo.svg" />
 	</div>
 
 	<div class="content__message">
@@ -42,7 +42,6 @@
 			text-align: center;
 			font-family: 'Open Sans', sans-serif;
 
-			margin-top: 20px;
 			max-width: 300px;
 		}
 
