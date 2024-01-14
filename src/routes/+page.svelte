@@ -1,30 +1,18 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+
+	import { EventType } from '$lib/core/enums/event.enum';
 	import type { TConfig } from '$lib/core/types/config.type';
-	import { EventType } from '$lib/core/enums/event-type.enum';
+
+	import { EventHelper } from '$lib/core/helpers/event.helper';
 
 	let config: TConfig;
 
 	onMount(() => {
-		if (window.opener) {
-			window.opener.postMessage({ type: EventType.Loaded, payload: { loaded: true } }, '*');
-
-			window.addEventListener('message', (e) => {
-				if (e.isTrusted) {
-					switch (e.data.type) {
-						case EventType.Config: {
-							const data = e.data.payload;
-							config = { ...data };
-
-							// Auth logic
-
-							const payload = { token: '...' };
-							const response = { type: EventType.AuthSucceded, payload };
-
-							window.opener.postMessage(response, '*');
-						}
-					}
-				}
+		if (EventHelper.init(window.opener)) {
+			EventHelper.send(EventType.Loaded).on(EventType.Config, (data) => {
+				config = { ...data };
+				EventHelper.send(EventType.AuthSucceded, { token: '...' });
 			});
 		}
 	});

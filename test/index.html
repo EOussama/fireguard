@@ -29,10 +29,8 @@
         if (e.isTrusted) {
           switch (e.data.type) {
             case 0: {
-              if (e.data.payload.loaded) {
-                const data = { type: 1, payload: { appName: 'Clave', authMethod: 3 } };
-                win.postMessage(data, '*');
-              }
+              const data = { type: 1, payload: { appName: 'Clave', authMethod: 3 } };
+              win.postMessage(data, '*');
 
               break;
             }
