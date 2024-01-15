@@ -4,40 +4,62 @@
 
 	import { EventType } from '$lib/core/enums/event.enum';
 	import type { TConfig } from '$lib/core/types/config.type';
+	import type { TOptions } from '$lib/core/types/options.type';
 
 	import { EventHelper } from '$lib/core/helpers/event.helper';
+	import { ConfigHelper } from '$lib/core/helpers/config.helper';
 
 	let config: TConfig;
 
 	onMount(() => {
 		if (EventHelper.init(window.opener)) {
-			EventHelper.send(EventType.Loaded).on(EventType.Config, (data) => {
-				config = { ...data };
-				EventHelper.send(EventType.AuthSucceded, { token: '...' });
+			EventHelper.send(EventType.Loaded).on<TOptions>(EventType.Config, (data) => {
+				try {
+					if (data) {
+						config = ConfigHelper.load(data);
+						EventHelper.send(EventType.AuthSucceded, { token: '...' });
+					}
+				} catch (err) {
+					console.error(`[Error] ${err}`);
+				}
 			});
 		}
-		config = { appName: 'Clave' };
 	});
 </script>
 
 <div class="content">
-	<div class="content__icon">
-		<img alt="Login Icon" src="./images/logo.svg" />
-	</div>
+	<div class="content__head">
+		{#if config?.logo}
+			<div class="content__icon">
+				<img alt="App Icon" src={config.logo} />
+			</div>
 
-	<div class="content__message">
-		{#if config}
-			<p>Authentication for <b>{config.appName}</b>.</p>
-		{:else}
-			<p>Fireguard has to be opened by an external page.</p>
+			<div class="content__icon content__icon--loader">
+				<div class="loader"></div>
+				<img alt="login Icon" src="images/login.svg" />
+			</div>
 		{/if}
+
+		<div class="content__icon">
+			<img alt="Fireguard Icon" src="./images/logo.svg" />
+		</div>
 	</div>
 
-	<p class="content__note">Make sure you're not blocking popups on this page.</p>
-	<p class="content__note">
-		Powered by <a target="_blank" href="https://github.com/EOussama/fireguard">Fireguard</a>
-		v{PUBLIC_VERSION}
-	</p>
+	<div class="content__body">
+		<div class="content__message">
+			{#if config}
+				<p>Google Authentication for <b>{config.name}</b>...</p>
+			{:else}
+				<p>Fireguard has to be opened by an external page.</p>
+			{/if}
+		</div>
+
+		<p class="content__note">Make sure you're not blocking popups on this page.</p>
+		<p class="content__note">
+			Powered by <a target="_blank" href="https://github.com/EOussama/fireguard">Fireguard</a>
+			v{PUBLIC_VERSION}
+		</p>
+	</div>
 </div>
 
 <style lang="scss">
@@ -55,11 +77,71 @@
 		width: 100%;
 		max-width: 320px;
 
+		&__head {
+			display: flex;
+			flex-direction: row;
+
+			align-items: center;
+			justify-content: center;
+		}
+
 		&__icon {
-			width: 80px;
+			width: 70px;
+			margin: 0 10px;
 
 			img {
 				width: 100%;
+			}
+
+			&--loader {
+				position: relative;
+				width: 35px;
+
+				img {
+					animation-name: beat;
+					animation-duration: 1s;
+					animation-fill-mode: both;
+					animation-direction: alternate;
+					animation-iteration-count: infinite;
+					animation-timing-function: ease-in-out;
+
+					@keyframes beat {
+						from {
+							opacity: 0.3;
+						}
+
+						to {
+							opacity: 1;
+						}
+					}
+				}
+
+				.loader {
+					position: absolute;
+					top: -3px;
+					left: -2px;
+
+					width: 40px;
+					padding: 4px;
+
+					aspect-ratio: 1;
+
+					border-radius: 50%;
+					background: var(--color-secondary);
+
+					--_m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
+					-webkit-mask: var(--_m);
+					mask: var(--_m);
+					-webkit-mask-composite: source-out;
+					mask-composite: subtract;
+					animation: load 1s infinite linear;
+
+					@keyframes load {
+						to {
+							transform: rotate(1turn);
+						}
+					}
+				}
 			}
 		}
 
