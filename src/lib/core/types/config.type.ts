@@ -1,5 +1,7 @@
+import type { TTheme } from './theme.type'
+
 export type TConfig = {
   name: string
-  logo?: string
-  color?: string
+  logo: string
+  theme: TTheme
 }
