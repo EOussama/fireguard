@@ -29,9 +29,14 @@
         if (e.isTrusted) {
           switch (e.data.type) {
             case 0: {
-              const data = { type: 1, payload: { appName: 'Clave', authMethod: 3 } };
-              win.postMessage(data, '*');
+              const payload = {
+                name: 'Clave',
+                theme: { primary: 'red', secondary: '#00ffff', text: '#00ffff' },
+                logo: 'https://cdn3.iconfinder.com/data/icons/2018-social-media-logotypes/1000/2018_social_media_popular_app_logo_youtube-512.png'
+              };
 
+              const message = { type: 1, payload };
+              win.postMessage(message, '*');
               break;
             }
 

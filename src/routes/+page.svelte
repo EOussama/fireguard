@@ -4,20 +4,24 @@
 
 	import { EventType } from '$lib/core/enums/event.enum';
 	import type { TConfig } from '$lib/core/types/config.type';
+	import type { TOptions } from '$lib/core/types/options.type';
 
 	import { EventHelper } from '$lib/core/helpers/event.helper';
+	import { ConfigHelper } from '$lib/core/helpers/config.helper';
 
 	let config: TConfig;
 
 	onMount(() => {
 		if (EventHelper.init(window.opener)) {
-			EventHelper.send(EventType.Loaded).on<TConfig>(EventType.Config, (data) => {
-				if (data) {
-					console.log({ data });
-					config = { ...data };
+			EventHelper.send(EventType.Loaded).on<TOptions>(EventType.Config, (data) => {
+				try {
+					if (data) {
+						config = ConfigHelper.load(data);
+						EventHelper.send(EventType.AuthSucceded, { token: '...' });
+					}
+				} catch (err) {
+					console.error(`[Error] ${err}`);
 				}
-
-				EventHelper.send(EventType.AuthSucceded, { token: '...' });
 			});
 		}
 	});
