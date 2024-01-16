@@ -2,23 +2,20 @@
 	import { onMount } from 'svelte';
 	import { PUBLIC_VERSION } from '$env/static/public';
 
-	import { EventType } from '$lib/core/enums/event.enum';
-	import type { TConfig } from '$lib/core/types/config.type';
-	import type { TOptions } from '$lib/core/types/options.type';
+	import { EventType, EventHelper } from 'firemitt/dist/firemitt.es';
+	import type { TFireguardConfig, TFireguardOptions } from 'firemitt/dist';
 
 	import { AuthHelper } from '$lib/core/helpers/auth.helper';
-	import { EventHelper } from '$lib/core/helpers/event.helper';
 	import { ConfigHelper } from '$lib/core/helpers/config.helper';
 
-	let config: TConfig;
+	let config: TFireguardConfig;
 
 	onMount(() => {
 		if (EventHelper.init(window.opener)) {
-			EventHelper.send(EventType.Loaded).on<TOptions>(EventType.Config, (data) => {
+			EventHelper.send(EventType.Loaded).on<TFireguardOptions>(EventType.Config, (data: TFireguardOptions) => {
 				try {
 					if (data) {
 						config = ConfigHelper.load(data);
-
 						AuthHelper.login(config.firebase)
 							.then((token) => {
 								EventHelper.send(EventType.AuthSucceded, { token });
