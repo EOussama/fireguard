@@ -4,14 +4,17 @@ import type { TColor } from '../types/color.type';
 import type { TConfig } from '../types/config.type';
 import type { TOptions } from '../types/options.type';
 
+import { InvalidAppNameError } from '../errors/invalid-app-name.error';
+import { InvalidFirebaseConfig } from '../errors/invalid-firebase-config.error';
+
 export class ConfigHelper {
 
   private static init(options: TOptions): TConfig {
     const name = options?.name ?? '';
-    if (name.length === 0) throw Error('Invalid Name');
+    if (name.length === 0) throw new InvalidAppNameError();
 
     const firebase = options?.firebase ?? {};
-    if (Object.keys(firebase).length === 0) throw Error('Invalid Credential');
+    if (Object.keys(firebase).length === 0) throw new InvalidFirebaseConfig();
 
     const logo = options?.logo ?? '';
     const theme = {
