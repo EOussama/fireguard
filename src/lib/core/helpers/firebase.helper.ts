@@ -1,11 +1,11 @@
 import { initializeApp, type FirebaseApp, } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, type Auth, type AuthProvider } from 'firebase/auth';
 
-import { CacheHelper } from './cache.helper';
-import { InvalidAppError } from '../errors/invalid-app.error';
+import { InvalidAppError } from 'firemitt/dist/firemitt.es';
+import type { TFirebaseConfig, TNullable } from 'firemitt/dist';
 
-import type { TNullable } from '../types/nullable.type';
-import type { TFirebaseConfig } from '../types/firebase-config.type';
+import { CacheHelper } from './cache.helper';
+
 
 export class FirebaseHelper {
 

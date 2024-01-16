@@ -1,15 +1,11 @@
 import chroma from 'chroma-js';
 
-import type { TColor } from '../types/color.type';
-import type { TConfig } from '../types/config.type';
-import type { TOptions } from '../types/options.type';
-
-import { InvalidAppNameError } from '../errors/invalid-app-name.error';
-import { InvalidFirebaseConfig } from '../errors/invalid-firebase-config.error';
+import type { TFireguardOptions, TFireguardConfig, TColor } from 'firemitt/dist';
+import { InvalidAppNameError, InvalidFirebaseConfig } from 'firemitt/dist/firemitt.es';
 
 export class ConfigHelper {
 
-  private static init(options: TOptions): TConfig {
+  private static init(options: TFireguardOptions): TFireguardConfig {
     const name = options?.name ?? '';
     if (name.length === 0) throw new InvalidAppNameError();
 
@@ -41,7 +37,7 @@ export class ConfigHelper {
     }
   }
 
-  static load(config: TOptions): TConfig {
+  static load(config: TFireguardOptions): TFireguardConfig {
     const conf = this.init(config);
     const colors: Array<TColor> = ['primary', 'secondary', 'text'];
 
