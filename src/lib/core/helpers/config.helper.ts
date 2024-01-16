@@ -10,6 +10,9 @@ export class ConfigHelper {
     const name = options?.name ?? '';
     if (name.length === 0) throw Error('Invalid Name');
 
+    const firebase = options?.firebase ?? {};
+    if (Object.keys(firebase).length === 0) throw Error('Invalid Credential');
+
     const logo = options?.logo ?? '';
     const theme = {
       text: options?.theme?.text || '#1a3544',
@@ -17,7 +20,7 @@ export class ConfigHelper {
       secondary: options?.theme?.secondary || '#1a3544'
     };
 
-    return { name, logo, theme };
+    return { name, logo, theme, firebase };
   }
 
   private static loadColor(name: TColor, color: string): void {

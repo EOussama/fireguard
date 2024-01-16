@@ -3,10 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fireguard Test</title>
 </head>
 
@@ -32,7 +29,16 @@
               const payload = {
                 name: 'Clave',
                 theme: { primary: 'red', secondary: 'darkorange', text: 'darkorange' },
-                logo: 'https://cdn3.iconfinder.com/data/icons/2018-social-media-logotypes/1000/2018_social_media_popular_app_logo_youtube-512.png'
+                logo: 'https://cdn3.iconfinder.com/data/icons/2018-social-media-logotypes/1000/2018_social_media_popular_app_logo_youtube-512.png',
+                firebase: {
+                  projectId: "",
+                  measurementId: "",
+                  messagingSenderId: "",
+                  storageBucket: "",
+                  authDomain: "",
+                  apiKey: "",
+                  appId: ""
+                }
               };
 
               const message = { type: 1, payload };
@@ -41,12 +47,12 @@
             }
 
             case 2: {
-              console.log('Auth succeeded');
+              console.log('Auth succeeded', e.data.payload);
               break;
             }
 
             case 3: {
-              console.log('Auth failed');
+              console.log('Auth failed', e.data.payload);
               break;
             }
           }
