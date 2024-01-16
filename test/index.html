@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fireguard Test</title>
+</head>
+
+<body>
+  <h1>Fireguard Test</h1>
+  <p>This page serves as a trigger for Fireguard, for testing purposes.</p>
+  <button onclick="trigger()">Open Fireguard</button>
+
+  <script>
+    function trigger() {
+      const width = 450;
+      const height = 260;
+      const top = 50;
+      const left = window.screen.width / 2 - width / 2;
+
+      const conf = `width=${width},height=${height},left=${left},top=${top}`;
+      const win = window.open('http://localhost:5173', '_blank', conf);
+
+      window.addEventListener('message', e => {
+        if (e.isTrusted) {
+          switch (e.data.type) {
+            case 0: {
+              const payload = {
+                name: 'Clave',
+                theme: { primary: 'red', secondary: 'darkorange', text: 'darkorange' },
+                logo: 'https://cdn3.iconfinder.com/data/icons/2018-social-media-logotypes/1000/2018_social_media_popular_app_logo_youtube-512.png',
+                firebase: {
+                  projectId: "",
+                  measurementId: "",
+                  messagingSenderId: "",
+                  storageBucket: "",
+                  authDomain: "",
+                  apiKey: "",
+                  appId: ""
+                }
+              };
+
+              const message = { type: 1, payload };
+              win.postMessage(message, '*');
+              break;
+            }
+
+            case 2: {
+              console.log('Auth succeeded', e.data.payload);
+              break;
+            }
+
+            case 3: {
+              console.log('Auth failed', e.data.payload);
+              break;
+            }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>
