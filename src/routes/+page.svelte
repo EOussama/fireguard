@@ -6,6 +6,7 @@
 	import type { TConfig } from '$lib/core/types/config.type';
 	import type { TOptions } from '$lib/core/types/options.type';
 
+	import { AuthHelper } from '$lib/core/helpers/auth.helper';
 	import { EventHelper } from '$lib/core/helpers/event.helper';
 	import { ConfigHelper } from '$lib/core/helpers/config.helper';
 
@@ -17,10 +18,17 @@
 				try {
 					if (data) {
 						config = ConfigHelper.load(data);
-						EventHelper.send(EventType.AuthSucceded, { token: '...' });
+
+						AuthHelper.login(config.firebase)
+							.then((token) => {
+								EventHelper.send(EventType.AuthSucceded, { token });
+							})
+							.catch((err) => {
+								throw err;
+							});
 					}
 				} catch (err) {
-					console.error(`[Error] ${err}`);
+					EventHelper.send(EventType.AuthFailed, { error: err });
 				}
 			});
 		}
