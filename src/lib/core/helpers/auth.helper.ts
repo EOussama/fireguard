@@ -1,7 +1,7 @@
 import { signInWithPopup } from 'firebase/auth';
 
-import type { TFirebaseConfig, TToken } from 'firemitt/dist';
-import { InvalidAppError, InvalidProviderError } from 'firemitt/dist/firemitt.es';
+import type { TFirebaseConfig, TToken } from '@eoussama/firemitt';
+import { InvalidAppError, InvalidProviderError } from '@eoussama/firemitt';
 
 import { FirebaseHelper } from './firebase.helper';
 

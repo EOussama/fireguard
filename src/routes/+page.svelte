@@ -2,41 +2,46 @@
 	import { onMount } from 'svelte';
 	import { PUBLIC_VERSION } from '$env/static/public';
 
-	import { EventType, EventHelper } from 'firemitt/dist/firemitt.es';
-	import type { TFireguardConfig, TFireguardOptions } from 'firemitt/dist';
+	import { EventType, EventHelper } from '@eoussama/firemitt';
+	import type { TFireguardConfig } from '@eoussama/firemitt';
 
 	import { AuthHelper } from '$lib/core/helpers/auth.helper';
 	import { ConfigHelper } from '$lib/core/helpers/config.helper';
 
-	let config: TFireguardConfig;
+	let fireguardConfig: TFireguardConfig;
 
 	onMount(() => {
 		if (EventHelper.init(window.opener)) {
-			EventHelper.send(EventType.Loaded).on<TFireguardOptions>(EventType.Config, (data: TFireguardOptions) => {
-				try {
-					if (data) {
-						config = ConfigHelper.load(data);
-						AuthHelper.login(config.firebase)
-							.then((token) => {
-								EventHelper.send(EventType.AuthSucceded, { token });
-							})
-							.catch((err) => {
-								throw err;
-							});
+			EventHelper.send(EventType.Loaded).on<TFireguardConfig>(
+				EventType.Config,
+				(config: TFireguardConfig) => {
+					try {
+						if (config) {
+							fireguardConfig = config;
+							ConfigHelper.load(config);
+
+							AuthHelper.login(config.firebase)
+								.then((token) => {
+									EventHelper.send(EventType.AuthSucceded, { token });
+								})
+								.catch((err) => {
+									throw err;
+								});
+						}
+					} catch (err) {
+						EventHelper.send(EventType.AuthFailed, { error: err });
 					}
-				} catch (err) {
-					EventHelper.send(EventType.AuthFailed, { error: err });
 				}
-			});
+			);
 		}
 	});
 </script>
 
 <div class="content">
 	<div class="content__head">
-		{#if config?.logo}
+		{#if fireguardConfig?.logo}
 			<div class="content__icon">
-				<img alt="App Icon" src={config.logo} />
+				<img alt="App Icon" src={fireguardConfig.logo} />
 			</div>
 
 			<div class="content__icon content__icon--loader">
@@ -52,8 +57,8 @@
 
 	<div class="content__body">
 		<div class="content__message">
-			{#if config}
-				<p>Google Authentication for <b>{config.name}</b>...</p>
+			{#if fireguardConfig}
+				<p>Google Authentication for <b>{fireguardConfig.name}</b>...</p>
 			{:else}
 				<p>Fireguard has to be opened by an external page.</p>
 			{/if}

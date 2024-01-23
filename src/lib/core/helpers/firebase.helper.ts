@@ -1,8 +1,8 @@
 import { initializeApp, type FirebaseApp, } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, type Auth, type AuthProvider } from 'firebase/auth';
 
-import { InvalidAppError } from 'firemitt/dist/firemitt.es';
-import type { TFirebaseConfig, TNullable } from 'firemitt/dist';
+import { InvalidAppError } from '@eoussama/firemitt';
+import type { TFirebaseConfig, TNullable } from '@eoussama/firemitt';
 
 import { CacheHelper } from './cache.helper';
 

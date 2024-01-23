@@ -1,4 +1,4 @@
-import type { TNullable } from 'firemitt/dist/firemitt.es.js';
+import type { TNullable } from '@eoussama/firemitt';
 
 export class CacheHelper<T> {
   private cache: { [key: string]: T };
