@@ -1,30 +1,7 @@
 import chroma from 'chroma-js';
-
-import type { TColor } from '../types/color.type';
-import type { TConfig } from '../types/config.type';
-import type { TOptions } from '../types/options.type';
-
-import { InvalidAppNameError } from '../errors/invalid-app-name.error';
-import { InvalidFirebaseConfig } from '../errors/invalid-firebase-config.error';
+import type { TFireguardConfig, TColor } from '@eoussama/firemitt';
 
 export class ConfigHelper {
-
-  private static init(options: TOptions): TConfig {
-    const name = options?.name ?? '';
-    if (name.length === 0) throw new InvalidAppNameError();
-
-    const firebase = options?.firebase ?? {};
-    if (Object.keys(firebase).length === 0) throw new InvalidFirebaseConfig();
-
-    const logo = options?.logo ?? '';
-    const theme = {
-      text: options?.theme?.text || '#1a3544',
-      primary: options?.theme?.primary || '#ffe536',
-      secondary: options?.theme?.secondary || '#1a3544'
-    };
-
-    return { name, logo, theme, firebase };
-  }
 
   private static loadColor(name: TColor, color: string): void {
     const root = document.querySelector(':root') as any;
@@ -41,12 +18,10 @@ export class ConfigHelper {
     }
   }
 
-  static load(config: TOptions): TConfig {
-    const conf = this.init(config);
+  static load(config: TFireguardConfig): TFireguardConfig {
     const colors: Array<TColor> = ['primary', 'secondary', 'text'];
+    colors.forEach(color => this.loadColor(color, config.theme[color]));
 
-    colors.forEach(color => this.loadColor(color, conf.theme[color]));
-
-    return conf;
+    return config;
   }
 }

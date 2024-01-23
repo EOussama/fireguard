@@ -1,4 +1,4 @@
-import type { TNullable } from '../types/nullable.type';
+import type { TNullable } from '@eoussama/firemitt';
 
 export class CacheHelper<T> {
   private cache: { [key: string]: T };

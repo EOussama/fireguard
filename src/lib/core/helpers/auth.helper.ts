@@ -1,11 +1,9 @@
 import { signInWithPopup } from 'firebase/auth';
 
-import { FirebaseHelper } from './firebase.helper';
-import { InvalidAppError } from '../errors/invalid-app.error';
+import type { TFirebaseConfig, TToken } from '@eoussama/firemitt';
+import { InvalidAppError, InvalidProviderError } from '@eoussama/firemitt';
 
-import type { TToken } from '../types/token.type';
-import type { TFirebaseConfig } from '../types/firebase-config.type';
-import { InvalidProviderError } from '../errors/invalid-provider.error';
+import { FirebaseHelper } from './firebase.helper';
 
 export class AuthHelper {
 
