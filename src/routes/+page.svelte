@@ -3,6 +3,7 @@
 
 	import Foot from '$lib/components/foot.svelte';
 	import Error from '$lib/components/error.svelte';
+	import Loader from '$lib/components/loader.svelte';
 
 	import { EventType, EventHelper } from '@eoussama/firemitt';
 	import type { BaseError, TFireguardConfig, TNullable } from '@eoussama/firemitt';
@@ -10,6 +11,7 @@
 	import { AuthHelper } from '$lib/core/helpers/auth.helper';
 	import { ConfigHelper } from '$lib/core/helpers/config.helper';
 
+	let loading: boolean = true;
 	let errorMsg: TNullable<string>;
 	let fireguardConfig: TFireguardConfig;
 
@@ -32,6 +34,8 @@
 
 						errorMsg = error.message;
 						EventHelper.send(EventType.AuthFailed, { error: error.toObject() });
+					} finally {
+						loading = false;
 					}
 				}
 			);
@@ -58,15 +62,21 @@
 	</div>
 
 	<div class="content__body">
-		<div class="content__message">
-			{#if errorMsg}
-				<Error {errorMsg} />
-			{:else if fireguardConfig}
-				<p>Google Authentication for <b>{fireguardConfig.name}</b>...</p>
-			{:else}
-				<Error errorMsg="Fireguard has to be opened by an external page." />
-			{/if}
-		</div>
+		{#if loading}
+			<div class="content__loader">
+				<Loader />
+			</div>
+		{:else}
+			<div class="content__message">
+				{#if errorMsg}
+					<Error {errorMsg} />
+				{:else if fireguardConfig}
+					<p>Google Authentication for <b>{fireguardConfig.name}</b>...</p>
+				{:else}
+					<Error errorMsg="Fireguard has to be opened by an external page." />
+				{/if}
+			</div>
+		{/if}
 
 		<Foot />
 	</div>
