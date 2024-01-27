@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { PUBLIC_VERSION } from '$env/static/public';
+	import { fly } from 'svelte/transition';
+
+	import Foot from '$lib/components/foot.svelte';
+	import Error from '$lib/components/error.svelte';
+	import Loader from '$lib/components/loader.svelte';
 
 	import { EventType, EventHelper } from '@eoussama/firemitt';
 	import type { BaseError, TFireguardConfig, TNullable } from '@eoussama/firemitt';
@@ -8,6 +12,7 @@
 	import { AuthHelper } from '$lib/core/helpers/auth.helper';
 	import { ConfigHelper } from '$lib/core/helpers/config.helper';
 
+	let loading: boolean = true;
 	let errorMsg: TNullable<string>;
 	let fireguardConfig: TFireguardConfig;
 
@@ -20,6 +25,7 @@
 						if (config) {
 							fireguardConfig = config;
 							ConfigHelper.load(config);
+							loading = false;
 
 							const token = await AuthHelper.login(config.firebase);
 							EventHelper.send(EventType.AuthSucceded, { token });
@@ -30,6 +36,8 @@
 
 						errorMsg = error.message;
 						EventHelper.send(EventType.AuthFailed, { error: error.toObject() });
+					} finally {
+						loading = false;
 					}
 				}
 			);
@@ -40,7 +48,7 @@
 <div class="content">
 	<div class="content__head">
 		{#if fireguardConfig?.logo}
-			<div class="content__icon">
+			<div class="content__icon" transition:fly>
 				<img alt="App Icon" src={fireguardConfig.logo} />
 			</div>
 
@@ -56,21 +64,23 @@
 	</div>
 
 	<div class="content__body">
-		<div class="content__message">
-			{#if errorMsg}
-				<p class="error">{errorMsg}</p>
-			{:else if fireguardConfig}
-				<p>Google Authentication for <b>{fireguardConfig.name}</b>...</p>
-			{:else}
-				<p>Fireguard has to be opened by an external page.</p>
-			{/if}
-		</div>
+		{#if loading}
+			<div class="content__loader">
+				<Loader />
+			</div>
+		{:else}
+			<div class="content__message" in:fly={{ y: 5, duration: 1000 }}>
+				{#if errorMsg}
+					<Error {errorMsg} />
+				{:else if fireguardConfig}
+					<p>Google Authentication for <b>{fireguardConfig.name}</b>...</p>
+				{:else}
+					<Error errorMsg="Fireguard has to be opened by an external page." />
+				{/if}
+			</div>
+		{/if}
 
-		<p class="content__note">Make sure you're not blocking popups on this page.</p>
-		<p class="content__note">
-			Powered by <a target="_blank" href="https://github.com/EOussama/fireguard">Fireguard</a>
-			v{PUBLIC_VERSION}
-		</p>
+		<Foot />
 	</div>
 </div>
 
@@ -165,46 +175,6 @@
 
 			b {
 				font-weight: var(--font-weight-bold);
-			}
-
-			.error {
-				font-size: 14px;
-				color: var(--color-error);
-				font-weight: var(--font-weight-bold);
-			}
-		}
-
-		&__note {
-			color: grey;
-			font-size: 12px;
-		}
-
-		a {
-			padding: 0 2px;
-			position: relative;
-
-			text-decoration: none;
-			color: hsl(var(--color-primary-hsl), 35%);
-
-			&::before {
-				content: '';
-
-				top: 0;
-				left: 0;
-				position: absolute;
-
-				width: 0;
-				height: 100%;
-
-				border-radius: 5px;
-				background-color: rgba(var(--color-primary-rgb), 0.15);
-
-				transition-duration: 0.2s;
-				transition-property: width;
-			}
-
-			&:hover::before {
-				width: 100%;
 			}
 		}
 	}
