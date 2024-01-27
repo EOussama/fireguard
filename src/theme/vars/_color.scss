@@ -13,3 +13,7 @@ $color-secondary-hsl: color.colorToHsl($color-secondary);
 $color-text: #1a3544;
 $color-text-rgb: color.colorToRgb($color-text);
 $color-text-hsl: color.colorToHsl($color-text);
+
+$color-error: #ff5959;
+$color-error-rgb: color.colorToRgb($color-error);
+$color-error-hsl: color.colorToHsl($color-error);
