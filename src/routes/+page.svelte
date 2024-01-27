@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { PUBLIC_VERSION } from '$env/static/public';
+
+	import Foot from '$lib/components/foot.svelte';
+	import Error from '$lib/components/error.svelte';
 
 	import { EventType, EventHelper } from '@eoussama/firemitt';
 	import type { BaseError, TFireguardConfig, TNullable } from '@eoussama/firemitt';
@@ -58,19 +60,15 @@
 	<div class="content__body">
 		<div class="content__message">
 			{#if errorMsg}
-				<p class="error">{errorMsg}</p>
+				<Error {errorMsg} />
 			{:else if fireguardConfig}
 				<p>Google Authentication for <b>{fireguardConfig.name}</b>...</p>
 			{:else}
-				<p>Fireguard has to be opened by an external page.</p>
+				<Error errorMsg="Fireguard has to be opened by an external page." />
 			{/if}
 		</div>
 
-		<p class="content__note">Make sure you're not blocking popups on this page.</p>
-		<p class="content__note">
-			Powered by <a target="_blank" href="https://github.com/EOussama/fireguard">Fireguard</a>
-			v{PUBLIC_VERSION}
-		</p>
+		<Foot />
 	</div>
 </div>
 
@@ -165,46 +163,6 @@
 
 			b {
 				font-weight: var(--font-weight-bold);
-			}
-
-			.error {
-				font-size: 14px;
-				color: var(--color-error);
-				font-weight: var(--font-weight-bold);
-			}
-		}
-
-		&__note {
-			color: grey;
-			font-size: 12px;
-		}
-
-		a {
-			padding: 0 2px;
-			position: relative;
-
-			text-decoration: none;
-			color: hsl(var(--color-primary-hsl), 35%);
-
-			&::before {
-				content: '';
-
-				top: 0;
-				left: 0;
-				position: absolute;
-
-				width: 0;
-				height: 100%;
-
-				border-radius: 5px;
-				background-color: rgba(var(--color-primary-rgb), 0.15);
-
-				transition-duration: 0.2s;
-				transition-property: width;
-			}
-
-			&:hover::before {
-				width: 100%;
 			}
 		}
 	}
