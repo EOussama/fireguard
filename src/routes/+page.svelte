@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
 
 	import Foot from '$lib/components/foot.svelte';
 	import Error from '$lib/components/error.svelte';
@@ -24,6 +25,7 @@
 						if (config) {
 							fireguardConfig = config;
 							ConfigHelper.load(config);
+							loading = false;
 
 							const token = await AuthHelper.login(config.firebase);
 							EventHelper.send(EventType.AuthSucceded, { token });
@@ -46,7 +48,7 @@
 <div class="content">
 	<div class="content__head">
 		{#if fireguardConfig?.logo}
-			<div class="content__icon">
+			<div class="content__icon" transition:fly>
 				<img alt="App Icon" src={fireguardConfig.logo} />
 			</div>
 
@@ -67,7 +69,7 @@
 				<Loader />
 			</div>
 		{:else}
-			<div class="content__message">
+			<div class="content__message" in:fly={{ y: 5, duration: 1000 }}>
 				{#if errorMsg}
 					<Error {errorMsg} />
 				{:else if fireguardConfig}
