@@ -3,33 +3,33 @@
 	import { PUBLIC_VERSION } from '$env/static/public';
 
 	import { EventType, EventHelper } from '@eoussama/firemitt';
-	import type { TFireguardConfig } from '@eoussama/firemitt';
+	import type { BaseError, TFireguardConfig, TNullable } from '@eoussama/firemitt';
 
 	import { AuthHelper } from '$lib/core/helpers/auth.helper';
 	import { ConfigHelper } from '$lib/core/helpers/config.helper';
 
+	let errorMsg: TNullable<string>;
 	let fireguardConfig: TFireguardConfig;
 
 	onMount(() => {
 		if (EventHelper.init(window.opener)) {
 			EventHelper.send(EventType.Loaded).on<TFireguardConfig>(
 				EventType.Config,
-				(config: TFireguardConfig) => {
+				async (config?: TFireguardConfig) => {
 					try {
 						if (config) {
 							fireguardConfig = config;
 							ConfigHelper.load(config);
 
-							AuthHelper.login(config.firebase)
-								.then((token) => {
-									EventHelper.send(EventType.AuthSucceded, { token });
-								})
-								.catch((err) => {
-									throw err;
-								});
+							const token = await AuthHelper.login(config.firebase);
+							EventHelper.send(EventType.AuthSucceded, { token });
+							errorMsg = null;
 						}
 					} catch (err) {
-						EventHelper.send(EventType.AuthFailed, { error: err });
+						const error = err as BaseError;
+
+						errorMsg = error.message;
+						EventHelper.send(EventType.AuthFailed, { error: error.toObject() });
 					}
 				}
 			);
@@ -57,7 +57,9 @@
 
 	<div class="content__body">
 		<div class="content__message">
-			{#if fireguardConfig}
+			{#if errorMsg}
+				<p class="error">{errorMsg}</p>
+			{:else if fireguardConfig}
 				<p>Google Authentication for <b>{fireguardConfig.name}</b>...</p>
 			{:else}
 				<p>Fireguard has to be opened by an external page.</p>
@@ -162,6 +164,12 @@
 			margin: 10px 0;
 
 			b {
+				font-weight: var(--font-weight-bold);
+			}
+
+			.error {
+				font-size: 14px;
+				color: var(--color-error);
 				font-weight: var(--font-weight-bold);
 			}
 		}

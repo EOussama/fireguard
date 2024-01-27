@@ -22,15 +22,20 @@ export class FirebaseHelper {
   }
 
   static getAuth(credentials: TFirebaseConfig): TNullable<Auth> {
-    if (!this.auths.has(credentials.appId)) {
-      const app = this.getApp(credentials);
-      if (!app) throw new InvalidAppError();
+    try {
+      if (!this.auths.has(credentials.appId)) {
+        const app = this.getApp(credentials);
 
-      const auth = getAuth(app);
-      this.auths.set(credentials.appId, auth);
+        if (app) {
+          const auth = getAuth(app);
+          this.auths.set(credentials.appId, auth);
+        }
+      }
+
+      return this.auths.get(credentials.appId);
+    } catch (_) {
+      throw new InvalidAppError();
     }
-
-    return this.auths.get(credentials.appId);
   }
 
   static getProvider(): AuthProvider {

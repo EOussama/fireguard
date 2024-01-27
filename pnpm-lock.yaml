@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@eoussama/firemitt':
-    specifier: ^0.1.4
-    version: 0.1.4
+    specifier: ^0.1.5
+    version: 0.1.5
   chroma-js:
     specifier: ^2.4.2
     version: 2.4.2
@@ -89,8 +89,8 @@ packages:
       '@jridgewell/trace-mapping': 0.3.21
     dev: true
 
-  /@eoussama/firemitt@0.1.4:
-    resolution: {integrity: sha512-Ir1DhtImFQIXY9wPjMlq1gbxlE8h5SzqwuiMAGFIw6kOOKQFpIPECXFRp/QfybZz0vdUTCMyWQ3Y81rYF+YVZg==}
+  /@eoussama/firemitt@0.1.5:
+    resolution: {integrity: sha512-Pv1PKjuRtry9u3yKkphn8lOnV6eH/c0jrnVDTTYsBPWMpcfzZXmnysdIL1Rw1dEkxA70Mnm/iMWNRC5iYr8bYQ==}
     dev: false
 
   /@esbuild/aix-ppc64@0.19.11:
