@@ -19,36 +19,30 @@ Fireguard is a SvelteKit-based web application designed to facilitate authentica
     cd fireguard
     ```
 
-
 2. **Install dependencies**:
     ```bash
     npm install
     ```
 
-3. **Configure Firebase**:
-    * Set up a Firebase project and enable Google Authentication.
-    * Add your Firebase project configuration to the .env file in the root of the project.
-
-4. **Run the development server**:
+3. **Run the development server**:
     ```bash
     npm run dev
     ```
 
 ### Usage
+
 1. **Open Fireguard in a new window**:
     * This can be triggered from your Chrome extension or web app.
 
 2. **Complete authentication**:
-    * The user will authenticate using the Firebase authentication method provided.
-
+    * The user will authenticate using the Fireguard authentication.
 
 3. **Receive the token**:
     * Fireguard will send the authentication token back to the parent application using a message event.
 
-
 4. **Integration with Firemitt**:
-    * Fireguard is designed to work seamlessly with Firemitt, an NPM package that simplifies communication between your host application and Fireguard.
-    * Refer to the Firemitt documentation for detailed integration steps.
+    * Fireguard is designed to work seamlessly with [Firemitt](https://github.com/eoussama/firemitt), an npm package that simplifies communication between your host application and Fireguard.
+    * Refer to the [Firemitt documentation](https://eoussama.github.io/firemitt) for detailed integration steps.
 
 ## Contributing
 Contributions to Fireguard are welcome. Please follow the standard fork-and-pull request workflow. Ensure that your code adheres to the project's coding standards and includes appropriate tests.
