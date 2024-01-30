@@ -11,6 +11,7 @@
 
 	import { AuthHelper } from '$lib/core/helpers/auth.helper';
 	import { ConfigHelper } from '$lib/core/helpers/config.helper';
+	import { goto } from '$app/navigation';
 
 	let loading: boolean = true;
 	let errorMsg: TNullable<string>;
@@ -38,6 +39,7 @@
 						EventHelper.send(EventType.AuthFailed, { error: error.toObject() });
 					} finally {
 						loading = false;
+						goto('/success');
 					}
 				}
 			);
