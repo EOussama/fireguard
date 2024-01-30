@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 	import { fly } from 'svelte/transition';
 
 	import Foot from '$lib/components/foot.svelte';
@@ -9,6 +10,7 @@
 	import { EventType, EventHelper } from '@eoussama/firemitt';
 	import type { BaseError, TFireguardConfig, TNullable } from '@eoussama/firemitt';
 
+	import { Page } from '$lib/core/enums/page.enum';
 	import { AuthHelper } from '$lib/core/helpers/auth.helper';
 	import { ConfigHelper } from '$lib/core/helpers/config.helper';
 
@@ -38,6 +40,7 @@
 						EventHelper.send(EventType.AuthFailed, { error: error.toObject() });
 					} finally {
 						loading = false;
+						goto(Page.Success);
 					}
 				}
 			);
