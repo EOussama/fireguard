@@ -8,15 +8,12 @@
 	import Loader from '$lib/components/loader.svelte';
 
 	import { EventType, EventHelper } from '@eoussama/firemitt';
-	import type { BaseError, TFireguardConfig, TNullable } from '@eoussama/firemitt';
+	import type { BaseError, TFireguardConfig } from '@eoussama/firemitt';
 
 	import { Page } from '$lib/core/enums/page.enum';
 	import { AuthHelper } from '$lib/core/helpers/auth.helper';
 	import { ConfigHelper } from '$lib/core/helpers/config.helper';
-
-	let loading: boolean = true;
-	let errorMsg: TNullable<string>;
-	let fireguardConfig: TFireguardConfig;
+	import { appStore } from '$lib/core/stores/app.store';
 
 	onMount(() => {
 		if (EventHelper.init(window.opener)) {
@@ -25,34 +22,37 @@
 				async (config?: TFireguardConfig) => {
 					try {
 						if (config) {
-							fireguardConfig = config;
 							ConfigHelper.load(config);
-							loading = false;
+							appStore.stopLoader();
 
 							const token = await AuthHelper.login(config.firebase);
-							EventHelper.send(EventType.AuthSucceded, { token });
-							errorMsg = null;
+							appStore.registerToken(token);
+							appStore.clearError();
+
+							goto(Page.Success);
 						}
 					} catch (err) {
 						const error = err as BaseError;
 
-						errorMsg = error.message;
+						appStore.raiseError(error.message);
 						EventHelper.send(EventType.AuthFailed, { error: error.toObject() });
 					} finally {
-						loading = false;
-						goto(Page.Success);
+						appStore.stopLoader();
 					}
 				}
 			);
+		} else {
+			appStore.stopLoader();
+			appStore.raiseError('Fireguard has to be opened by an external page.');
 		}
 	});
 </script>
 
 <div class="content">
 	<div class="content__head">
-		{#if fireguardConfig?.logo}
+		{#if $appStore.config?.logo}
 			<div class="content__icon" transition:fly>
-				<img alt="App Icon" src={fireguardConfig.logo} />
+				<img alt="App Icon" src={$appStore.config.logo} />
 			</div>
 
 			<div class="content__icon content__icon--loader">
@@ -67,18 +67,16 @@
 	</div>
 
 	<div class="content__body">
-		{#if loading}
+		{#if $appStore.loading}
 			<div class="content__loader">
 				<Loader />
 			</div>
 		{:else}
 			<div class="content__message" in:fly={{ y: 5, duration: 1000 }}>
-				{#if errorMsg}
-					<Error {errorMsg} />
-				{:else if fireguardConfig}
-					<p>Google Authentication for <b>{fireguardConfig.name}</b>...</p>
+				{#if $appStore.errorMsg}
+					<Error />
 				{:else}
-					<Error errorMsg="Fireguard has to be opened by an external page." />
+					<p>Google Authentication for <b>{$appStore.config?.name}</b>...</p>
 				{/if}
 			</div>
 		{/if}
