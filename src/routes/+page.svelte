@@ -11,9 +11,22 @@
 	import type { BaseError, TFireguardConfig } from '@eoussama/firemitt';
 
 	import { Page } from '$lib/core/enums/page.enum';
+	import { appStore } from '$lib/core/stores/app.store';
+
 	import { AuthHelper } from '$lib/core/helpers/auth.helper';
 	import { ConfigHelper } from '$lib/core/helpers/config.helper';
-	import { appStore } from '$lib/core/stores/app.store';
+
+	const onFailure = (error: string): void => {
+		appStore.stopLoader();
+		appStore.raiseError(error);
+	};
+
+	const onSuccess = (token: string): void => {
+		appStore.clearError();
+		appStore.registerToken(token);
+
+		goto(Page.Success);
+	};
 
 	onMount(() => {
 		if (EventHelper.init(window.opener)) {
@@ -23,27 +36,20 @@
 					try {
 						if (config) {
 							ConfigHelper.load(config);
-							appStore.stopLoader();
-
 							const token = await AuthHelper.login(config.firebase);
-							appStore.registerToken(token);
-							appStore.clearError();
 
-							goto(Page.Success);
+							onSuccess(token);
 						}
 					} catch (err) {
 						const error = err as BaseError;
 
-						appStore.raiseError(error.message);
+						onFailure(error.message);
 						EventHelper.send(EventType.AuthFailed, { error: error.toObject() });
-					} finally {
-						appStore.stopLoader();
 					}
 				}
 			);
 		} else {
-			appStore.stopLoader();
-			appStore.raiseError('Fireguard has to be opened by an external page.');
+			onFailure('Fireguard has to be opened by an external page.');
 		}
 	});
 </script>
