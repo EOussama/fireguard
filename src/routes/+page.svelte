@@ -19,6 +19,8 @@
 	const onFailure = (error: string): void => {
 		appStore.stopLoader();
 		appStore.raiseError(error);
+
+		goto(Page.Failure);
 	};
 
 	const onSuccess = (token: string): void => {
@@ -55,6 +57,8 @@
 </script>
 
 <div class="content">
+
+	<!-- TODO: head component -->
 	<div class="content__head">
 		{#if $appStore.config?.logo}
 			<div class="content__icon" transition:fly>
@@ -73,17 +77,15 @@
 	</div>
 
 	<div class="content__body">
+
+		<!-- TODO: loader component with state access that wrapps elements -->
 		{#if $appStore.loading}
 			<div class="content__loader">
 				<Loader />
 			</div>
 		{:else}
 			<div class="content__message" in:fly={{ y: 5, duration: 1000 }}>
-				{#if $appStore.errorMsg}
-					<Error />
-				{:else}
-					<p>Google Authentication for <b>{$appStore.config?.name}</b>...</p>
-				{/if}
+				<p>Google Authentication for <b>{$appStore.config?.name}</b>...</p>
 			</div>
 		{/if}
 
