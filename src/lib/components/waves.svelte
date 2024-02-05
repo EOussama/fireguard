@@ -1,15 +1,26 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	
+	import 'three';
+	import vanta from 'vanta/dist/vanta.waves.min';
 
-	let canvas: HTMLCanvasElement;
+	let canvas: HTMLDivElement;
 
 	onMount(() => {
-		console.log({ canvas });
+		// console.log(vanta({ el: canvas }));
+		vanta({
+			el: canvas,
+			color: 0x000000,
+			waveHeight: 20,
+			shininess: 50,
+			waveSpeed: 1.5,
+			zoom: 0.75
+		});
 	});
 </script>
 
 <div class="waves">
-	<canvas bind:this={canvas} class="waves__canvas"></canvas>
+	<div bind:this={canvas} class="waves__canvas"></div>
 </div>
 
 <style lang="scss">
@@ -18,8 +29,8 @@
 		height: 100%;
 
 		&__canvas {
-			width: 100%;
-			height: 100%;
+			// width: 100%;
+			// height: 100%;
 		}
 	}
 </style>
