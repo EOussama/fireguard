@@ -8,6 +8,9 @@ dependencies:
   '@eoussama/firemitt':
     specifier: ^0.1.5
     version: 0.1.5
+  '@tsparticles/engine':
+    specifier: ^3.2.1
+    version: 3.2.1
   chroma-js:
     specifier: ^2.4.2
     version: 2.4.2
@@ -1108,6 +1111,12 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@tsparticles/engine@3.2.1:
+    resolution: {integrity: sha512-mVzdwkOtRdT6/UOS0+GPGcKJsdvYCkqTTwg7df43TfXixsdZedpUkuVg30rwtNhTgPMH2nimOXqx2wmgL7bAZw==}
+    deprecated: 3.2.0 and 3.2.1 have issues with some bundlers, deprecating those until solved with 3.2.2
+    requiresBuild: true
+    dev: false
 
   /@types/chroma-js@2.4.3:
     resolution: {integrity: sha512-1ly5ly/7S/YF8aD7MxUQnFOZxdegimuOunJl0xDsLlguu5JrwuSTVGVH3UpIUlh6YauI0RMNT4cqjBonhgbdIQ==}
