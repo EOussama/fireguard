@@ -1,8 +1,8 @@
 <script lang="ts">
-	export let errorMsg: string;
+	import { appStore } from '$lib/core/stores/app.store';
 </script>
 
-<div class="error">{errorMsg}</div>
+<div class="error">{$appStore.errorMsg}</div>
 
 <style lang="scss">
 	.error {

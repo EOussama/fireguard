@@ -1,4 +1,5 @@
 import chroma from 'chroma-js';
+import { appStore } from '../stores/app.store';
 import type { TFireguardConfig, TColor } from '@eoussama/firemitt';
 
 export class ConfigHelper {
@@ -18,10 +19,10 @@ export class ConfigHelper {
     }
   }
 
-  static load(config: TFireguardConfig): TFireguardConfig {
+  static load(config: TFireguardConfig): void {
     const colors: Array<TColor> = ['primary', 'secondary', 'text'];
-    colors.forEach(color => this.loadColor(color, config.theme[color]));
 
-    return config;
+    colors.forEach(color => this.loadColor(color, config.theme[color]));
+    appStore.loadConfig(config);
   }
 }
