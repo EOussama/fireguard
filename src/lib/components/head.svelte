@@ -1,6 +1,21 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
+
 	import { appStore } from '$lib/core/stores/app.store';
+	import { AuthStatus } from '$lib/core/enums/auth-status.enum';
+	import { EnumHelper } from '@eoussama/firemitt';
+
+	export let status: AuthStatus;
+
+	const getLoaderIcon = (): string => {
+		const base = 'images';
+		const iconName = EnumHelper.getName(AuthStatus, status);
+
+		return `${base}/${iconName}.svg`.toLowerCase();
+	};
+
+	const getLoaderClass = (): string =>
+		`head__icon head__icon--loader head__icon--${EnumHelper.getName(AuthStatus, status)}`.toLowerCase();
 </script>
 
 <div class="head">
@@ -9,9 +24,9 @@
 			<img alt="App Icon" src={$appStore.config.logo} />
 		</div>
 
-		<div class="head__icon head__icon--loader">
+		<div class={getLoaderClass()}>
 			<div class="loader"></div>
-			<img alt="login Icon" src="images/login.svg" />
+			<img alt="Status icon" src={getLoaderIcon()} />
 		</div>
 	{/if}
 
@@ -37,9 +52,42 @@
 			}
 
 			&--loader {
-				position: relative;
 				width: 35px;
+				position: relative;
 
+				.loader {
+					display: none;
+
+					position: absolute;
+					top: -3px;
+					left: -2px;
+
+					width: 40px;
+					padding: 4px;
+
+					aspect-ratio: 1;
+
+					border-radius: 50%;
+					background: var(--color-secondary);
+
+					--_m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
+					mask: var(--_m);
+
+					-webkit-mask: var(--_m);
+					-webkit-mask-composite: source-out;
+
+					mask-composite: subtract;
+					animation: load 1s infinite linear;
+
+					@keyframes load {
+						to {
+							transform: rotate(1turn);
+						}
+					}
+				}
+			}
+
+			&--pending {
 				img {
 					animation-name: beat;
 					animation-duration: 1s;
@@ -60,30 +108,7 @@
 				}
 
 				.loader {
-					position: absolute;
-					top: -3px;
-					left: -2px;
-
-					width: 40px;
-					padding: 4px;
-
-					aspect-ratio: 1;
-
-					border-radius: 50%;
-					background: var(--color-secondary);
-
-					--_m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
-					-webkit-mask: var(--_m);
-					mask: var(--_m);
-					-webkit-mask-composite: source-out;
-					mask-composite: subtract;
-					animation: load 1s infinite linear;
-
-					@keyframes load {
-						to {
-							transform: rotate(1turn);
-						}
-					}
+					display: block;
 				}
 			}
 		}
