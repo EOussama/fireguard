@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Particles from '$lib/components/particles.svelte';
+	import Underlay from '$lib/components/underlay.svelte';
 	import '../theme/main.scss';
 </script>
 
@@ -13,7 +13,7 @@
 	</main>
 
 	<div class="underlay">
-		<Particles />
+		<Underlay />
 	</div>
 </div>
 
