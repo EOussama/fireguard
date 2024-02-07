@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Particles from '$lib/components/particles.svelte';
 	import '../theme/main.scss';
 </script>
 
@@ -10,6 +11,10 @@
 	<main class="body">
 		<slot />
 	</main>
+
+	<div class="underlay">
+		<Particles />
+	</div>
 </div>
 
 <style lang="scss">
