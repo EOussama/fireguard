@@ -1,4 +1,5 @@
 export enum Page {
   Index = '/',
-  Success = '/success'
+  Success = '/success',
+  Failure = '/failure'
 }
