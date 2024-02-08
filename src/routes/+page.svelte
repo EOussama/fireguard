@@ -39,8 +39,9 @@
 					try {
 						if (config) {
 							ConfigHelper.load(config);
-							const token = await AuthHelper.login(config.firebase);
+							appStore.stopLoader();
 
+							const token = await AuthHelper.login(config.firebase);
 							onSuccess(token);
 						}
 					} catch (err) {
@@ -63,7 +64,6 @@
 	</div>
 
 	<div class="content__body">
-		<!-- TODO: loader component with state access that wrapps elements -->
 		{#if $appStore.loading}
 			<div class="content__loader">
 				<Loader />
