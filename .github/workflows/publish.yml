@@ -4,15 +4,16 @@ on:
   release:
     types: [published]
 
+env:
+  PUBLIC_VERSION: ${{ vars.PUBLIC_VERSION }}
+
 jobs:
-  npm:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
-      with:
-        ref: build
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
