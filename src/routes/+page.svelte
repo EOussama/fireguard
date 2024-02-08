@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import { fly } from 'svelte/transition';
 
@@ -21,14 +22,14 @@
 		appStore.stopLoader();
 		appStore.raiseError(error);
 
-		goto(Page.Failure);
+		goto(`${base}${Page.Failure}`);
 	};
 
 	const onSuccess = (token: string): void => {
 		appStore.clearError();
 		appStore.registerToken(token);
 
-		goto(Page.Success);
+		goto(`${base}${Page.Success}`);
 	};
 
 	onMount(() => {
