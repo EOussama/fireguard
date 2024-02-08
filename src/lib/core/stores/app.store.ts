@@ -6,6 +6,10 @@ import type { TAppStore } from '../types/app-store.type';
 
 
 
+/**
+ * @description
+ * Represents the application store that manages the application state.
+ */
 export const appStore: TAppStore = (() => {
   const { subscribe, set, update } = writable(initialAppState);
 

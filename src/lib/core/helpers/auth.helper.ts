@@ -5,8 +5,25 @@ import { InvalidAppError, InvalidProviderError } from '@eoussama/firemitt';
 
 import { FirebaseHelper } from './firebase.helper';
 
+
+
+/**
+ * @description
+ * Helper class for authentication related functionalities.
+ */
 export class AuthHelper {
 
+  /**
+   * @description
+   * Logs in the user using Firebase authentication.
+   *
+   * @param credentials The Firebase configuration.
+   *
+   * @returns A promise resolving to the authentication token.
+   *
+   * @throws {InvalidAppError} If the Firebase app is invalid or not initialized.
+   * @throws {InvalidProviderError} If the authentication provider is invalid or unknown.
+   */
   static login(credentials: TFirebaseConfig): Promise<string> {
     return new Promise((resolve, reject) => {
       const auth = FirebaseHelper.getAuth(credentials);
