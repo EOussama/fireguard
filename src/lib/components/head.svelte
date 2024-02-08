@@ -24,7 +24,7 @@
 			<img alt="App Icon" src={$appStore.config.logo} />
 		</div>
 
-		<div class={getLoaderClass()}>
+		<div class={getLoaderClass()} transition:fly>
 			<div class="loader"></div>
 			<img alt="Status icon" src={getLoaderIcon()} />
 		</div>

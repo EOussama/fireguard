@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { fly } from 'svelte/transition';
 
+	import Head from '$lib/components/head.svelte';
 	import Foot from '$lib/components/foot.svelte';
 	import Loader from '$lib/components/loader.svelte';
 
@@ -14,7 +15,7 @@
 
 	import { AuthHelper } from '$lib/core/helpers/auth.helper';
 	import { ConfigHelper } from '$lib/core/helpers/config.helper';
-	import Head from '$lib/components/head.svelte';
+	import { AuthStatus } from '$lib/core/enums/auth-status.enum';
 
 	const onFailure = (error: string): void => {
 		appStore.stopLoader();
@@ -58,7 +59,7 @@
 
 <div class="content">
 	<div class="content__head">
-		<Head />
+		<Head status={AuthStatus.Pending} />
 	</div>
 
 	<div class="content__body">
