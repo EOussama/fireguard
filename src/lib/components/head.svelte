@@ -5,8 +5,16 @@
 	import { AuthStatus } from '$lib/core/enums/auth-status.enum';
 	import { EnumHelper } from '@eoussama/firemitt';
 
+	/**
+	 * @description
+	 * The status of the authentication.
+	 */
 	export let status: AuthStatus;
 
+	/**
+	 * @description
+	 * Returns the appropriate status icon.
+	 */
 	const getLoaderIcon = (): string => {
 		const base = 'images';
 		const iconName = EnumHelper.getName(AuthStatus, status);
@@ -14,8 +22,19 @@
 		return `${base}/${iconName}.svg`.toLowerCase();
 	};
 
-	const getLoaderClass = (): string =>
-		`head__icon head__icon--loader head__icon--${EnumHelper.getName(AuthStatus, status)}`.toLowerCase();
+	/**
+	 * @description
+	 * Returns the appropriate classes for the icon element.
+	 */
+	const getLoaderClass = (): string => {
+		const classes = [
+			'head__icon',
+			'head__icon--loader',
+			`head__icon--${EnumHelper.getName(AuthStatus, status)}`
+		];
+
+		return classes.join(' ').toLowerCase();
+	};
 </script>
 
 <div class="head">
