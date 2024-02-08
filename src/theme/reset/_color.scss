@@ -14,4 +14,8 @@
   --color-text: #{color.$color-text};
   --color-text-rgb: #{color.$color-text-rgb};
   --color-text-hsl: #{color.$color-text-hsl};
+
+  --color-error: #{color.$color-error};
+  --color-error-rgb: #{color.$color-error-rgb};
+  --color-error-hsl: #{color.$color-error-hsl};
 }

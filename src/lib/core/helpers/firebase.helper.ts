@@ -1,11 +1,11 @@
 import { initializeApp, type FirebaseApp, } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, type Auth, type AuthProvider } from 'firebase/auth';
 
-import { CacheHelper } from './cache.helper';
-import { InvalidAppError } from '../errors/invalid-app.error';
+import { InvalidAppError } from '@eoussama/firemitt';
+import type { TFirebaseConfig, TNullable } from '@eoussama/firemitt';
 
-import type { TNullable } from '../types/nullable.type';
-import type { TFirebaseConfig } from '../types/firebase-config.type';
+import { CacheHelper } from './cache.helper';
+
 
 export class FirebaseHelper {
 
@@ -22,15 +22,20 @@ export class FirebaseHelper {
   }
 
   static getAuth(credentials: TFirebaseConfig): TNullable<Auth> {
-    if (!this.auths.has(credentials.appId)) {
-      const app = this.getApp(credentials);
-      if (!app) throw new InvalidAppError();
+    try {
+      if (!this.auths.has(credentials.appId)) {
+        const app = this.getApp(credentials);
 
-      const auth = getAuth(app);
-      this.auths.set(credentials.appId, auth);
+        if (app) {
+          const auth = getAuth(app);
+          this.auths.set(credentials.appId, auth);
+        }
+      }
+
+      return this.auths.get(credentials.appId);
+    } catch (_) {
+      throw new InvalidAppError();
     }
-
-    return this.auths.get(credentials.appId);
   }
 
   static getProvider(): AuthProvider {

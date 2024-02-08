@@ -1,1 +1,0 @@
-export type TColor = 'primary' | 'secondary' | 'text';
