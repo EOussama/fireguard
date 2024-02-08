@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import { fly } from 'svelte/transition';
 
@@ -21,14 +22,22 @@
 		appStore.stopLoader();
 		appStore.raiseError(error);
 
-		goto(Page.Failure);
+		if (base.length > 0) {
+			goto(`${base}/${Page.Failure}`);
+		} else {
+			goto(Page.Failure);
+		}
 	};
 
 	const onSuccess = (token: string): void => {
 		appStore.clearError();
 		appStore.registerToken(token);
 
-		goto(Page.Success);
+		if (base.length > 0) {
+			goto(`${base}/${Page.Success}`);
+		} else {
+			goto(Page.Success);
+		}
 	};
 
 	onMount(() => {
@@ -39,8 +48,9 @@
 					try {
 						if (config) {
 							ConfigHelper.load(config);
-							const token = await AuthHelper.login(config.firebase);
+							appStore.stopLoader();
 
+							const token = await AuthHelper.login(config.firebase);
 							onSuccess(token);
 						}
 					} catch (err) {
@@ -63,7 +73,6 @@
 	</div>
 
 	<div class="content__body">
-		<!-- TODO: loader component with state access that wrapps elements -->
 		{#if $appStore.loading}
 			<div class="content__loader">
 				<Loader />

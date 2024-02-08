@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Underlay from '$lib/components/underlay.svelte';
 	import '../theme/main.scss';
 </script>
 
@@ -11,10 +10,6 @@
 	<main class="body">
 		<slot />
 	</main>
-
-	<div class="underlay">
-		<Underlay />
-	</div>
 </div>
 
 <style lang="scss">
