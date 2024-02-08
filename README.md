@@ -1,4 +1,16 @@
-# Fireguard
+<p align="center">
+  <img width="100" src="https://raw.githubusercontent.com/eoussama/fireguard/main/static/images/logo.svg">
+</p>
+
+<h1 align="center">Fireguard</h1>
+<p align="center">Firebase middleman authenticator.</p>
+
+<p align="center">
+    <img src="https://img.shields.io/github/license/eoussama/fireguard" />
+    <img src="https://img.shields.io/github/languages/code-size/eoussama/fireguard" />
+</p>
+
+## Description
 
 Fireguard is a SvelteKit-based web application designed to facilitate authentication for Chrome extensions and web apps in light of the changes introduced by Manifest V3. It utilizes Firebase Authentication to handle user sign-ins and securely communicates authentication tokens back to the parent application.
 
