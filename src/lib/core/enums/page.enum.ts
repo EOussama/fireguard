@@ -8,17 +8,17 @@ export enum Page {
    * @description
    * Represents the index page.
    */
-  Index = '/',
+  Index = '',
 
   /**
    * @description
    * Represents the success page.
    */
-  Success = '/success',
+  Success = 'success',
 
   /**
    * @description
    * Represents the failure page.
    */
-  Failure = '/failure'
+  Failure = 'failure'
 }
