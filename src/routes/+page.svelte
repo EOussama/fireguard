@@ -22,22 +22,14 @@
 		appStore.stopLoader();
 		appStore.raiseError(error);
 
-		if (base.length > 0) {
-			goto(`${base}/${Page.Failure}`);
-		} else {
-			goto(Page.Failure);
-		}
+		goto(`${base}/${Page.Failure}`);
 	};
 
 	const onSuccess = (token: string): void => {
 		appStore.clearError();
 		appStore.registerToken(token);
 
-		if (base.length > 0) {
-			goto(`${base}/${Page.Success}`);
-		} else {
-			goto(Page.Success);
-		}
+		goto(`${base}/${Page.Success}`);
 	};
 
 	onMount(() => {
