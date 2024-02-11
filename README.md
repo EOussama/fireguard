@@ -7,6 +7,7 @@
 
 <p align="center">
     <img src="https://img.shields.io/github/license/eoussama/fireguard" />
+    <img src="https://github.com/eoussama/fireguard/actions/workflows/publish.yml/badge.svg" />
     <img src="https://img.shields.io/github/languages/code-size/eoussama/fireguard" />
 </p>
 
@@ -36,7 +37,9 @@ Fireguard is a SvelteKit-based web application designed to facilitate authentica
     npm install
     ```
 
-3. **Run the development server**:
+3. **Environment variables**: Creates a `.env` file from `.env.example` and populate it with the required values.
+
+4. **Run the development server**: 
     ```bash
     npm run dev
     ```
