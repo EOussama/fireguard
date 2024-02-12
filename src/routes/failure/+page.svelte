@@ -1,8 +1,20 @@
 <script lang="ts">
-	import { AuthStatus } from '$lib/core/enums/auth-status.enum';
-
 	import Head from '$lib/components/head.svelte';
 	import Error from '$lib/components/error.svelte';
+	import Button from '$lib/components/button.svelte';
+	
+	import { Page } from '$lib/core/enums/page.enum';
+	import { AuthStatus } from '$lib/core/enums/auth-status.enum';
+
+	import { FireguardHelper } from '$lib/core/helpers/fireguard.helper';
+
+	const onClose = (): void => {
+		FireguardHelper.close();
+	};
+
+	const onRetry = (): void => {
+		FireguardHelper.navigate(Page.Index);
+	};
 </script>
 
 <div class="failure">
@@ -12,6 +24,11 @@
 
 	<div class="failure__body">
 		<Error />
+	</div>
+
+	<div class="failure__foot">
+		<Button label="Retry" on:click={onRetry} />
+		<Button label="Close" on:click={onClose} />
 	</div>
 </div>
 
@@ -24,14 +41,18 @@
 		justify-content: center;
 
 		margin-bottom: 20px;
-		
+
 		&__head {
 			margin-top: 20px;
 		}
-		
+
 		&__body {
 			margin-top: 10px;
 			text-align: center;
+		}
+
+		&__foot {
+			margin-top: 15px;
 		}
 	}
 </style>
