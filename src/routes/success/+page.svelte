@@ -3,22 +3,40 @@
 	import { EventHelper, EventType } from '@eoussama/firemitt';
 
 	import Head from '$lib/components/head.svelte';
+	import Button from '$lib/components/button.svelte';
 
 	import { appStore } from '$lib/core/stores/app.store';
 	import { AuthStatus } from '$lib/core/enums/auth-status.enum';
 	import { FireguardHelper } from '$lib/core/helpers/fireguard.helper';
 
+	/**
+	 * @description
+	 * The number of intervals to count down
+	 */
 	let iterations = 3;
+
+	/**
+	 * @description
+	 * The length of a single interval in milliseconds
+	 */
 	const interval = 1000;
 
+	/**
+	 * @description
+	 * Human readable remaining time
+	 */
 	$: remainingTime = `${iterations} second${iterations === 1 ? '' : 's'}`;
 
+	/**
+	 * @description
+	 * Closing handler
+	 */
 	const onClose = (): void => {
 		if (FireguardHelper.isReady()) {
 			EventHelper.send(EventType.AuthSucceded, { token: $appStore.token });
 		}
 
-		window.close();
+		FireguardHelper.close();
 	};
 
 	onMount(() => {
@@ -42,14 +60,12 @@
 	</div>
 
 	<div class="success__foot">
-		<button class="success__btn" on:click={onClose}>Close</button>
+		<Button label="Close" on:click={onClose} />
 	</div>
 </div>
 
 <style lang="scss">
 	.success {
-		$root: &;
-
 		display: flex;
 		align-items: center;
 		flex-direction: column;
@@ -68,25 +84,6 @@
 
 		&__foot {
 			margin-top: 15px;
-
-			#{$root}__btn {
-				cursor: pointer;
-
-				border: none;
-				border-radius: 5px;
-				padding: 10px 20px;
-
-				transition-duration: 0.2s;
-				transition-property: background-color;
-
-				color: var(--color-text);
-				font-family: var(--font-primary);
-				background-color: rgba(var(--color-primary-rgb), 0.2);
-
-				&:hover {
-					background-color: rgba(var(--color-primary-rgb), 0.5);
-				}
-			}
 		}
 	}
 </style>
