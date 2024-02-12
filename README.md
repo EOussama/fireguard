@@ -29,7 +29,7 @@ Fireguard is a SvelteKit-based web application designed to facilitate authentica
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/fireguard.git
+    git clone https://github.com/eoussama/fireguard.git
     cd fireguard
     ```
 
