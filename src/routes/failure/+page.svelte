@@ -21,7 +21,7 @@
 	 * Retry handler
 	 */
 	const onRetry = (): void => {
-		FireguardHelper.navigate(Page.Index);
+		FireguardHelper.navigate(Page.Index).then((e) => location.reload());
 	};
 </script>
 

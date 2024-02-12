@@ -35,7 +35,7 @@ export class FireguardHelper {
    *
    * @param page The page to navigate to
    */
-  static navigate(page: Page): void {
-    goto(`${base}/${page}`);
+  static navigate(page: Page): Promise<void> {
+    return goto(`${base}/${page}`, { replaceState: true });
   }
 }
