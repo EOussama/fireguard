@@ -22,6 +22,8 @@
 
 		align-items: center;
 		justify-content: center;
+
+		margin-bottom: 20px;
 		
 		&__head {
 			margin-top: 20px;

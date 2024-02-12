@@ -5,7 +5,6 @@
 	import { fly } from 'svelte/transition';
 
 	import Head from '$lib/components/head.svelte';
-	import Foot from '$lib/components/foot.svelte';
 	import Loader from '$lib/components/loader.svelte';
 
 	import { EventType, EventHelper } from '@eoussama/firemitt';
@@ -74,8 +73,6 @@
 				<p>Google Authentication for <b>{$appStore.config?.name}</b>...</p>
 			</div>
 		{/if}
-
-		<Foot />
 	</div>
 </div>
 
@@ -83,13 +80,6 @@
 	.content {
 		margin: auto;
 		padding: 10px;
-
-		text-align: center;
-
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-		justify-content: center;
 
 		width: 100%;
 		max-width: 320px;
