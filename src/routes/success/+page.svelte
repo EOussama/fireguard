@@ -9,11 +9,28 @@
 	import { AuthStatus } from '$lib/core/enums/auth-status.enum';
 	import { FireguardHelper } from '$lib/core/helpers/fireguard.helper';
 
+	/**
+	 * @description
+	 * The number of intervals to count down
+	 */
 	let iterations = 3;
+
+	/**
+	 * @description
+	 * The length of a single interval in milliseconds
+	 */
 	const interval = 1000;
 
+	/**
+	 * @description
+	 * Human readable remaining time
+	 */
 	$: remainingTime = `${iterations} second${iterations === 1 ? '' : 's'}`;
 
+	/**
+	 * @description
+	 * Closing handler
+	 */
 	const onClose = (): void => {
 		if (FireguardHelper.isReady()) {
 			EventHelper.send(EventType.AuthSucceded, { token: $appStore.token });

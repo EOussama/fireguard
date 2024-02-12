@@ -8,10 +8,18 @@
 
 	import { FireguardHelper } from '$lib/core/helpers/fireguard.helper';
 
+	/**
+	 * @description
+	 * Closing handler
+	 */
 	const onClose = (): void => {
 		FireguardHelper.close();
 	};
 
+	/**
+	 * @description
+	 * Retry handler
+	 */
 	const onRetry = (): void => {
 		FireguardHelper.navigate(Page.Index);
 	};

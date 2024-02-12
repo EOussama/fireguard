@@ -17,6 +17,12 @@
 	import { ConfigHelper } from '$lib/core/helpers/config.helper';
 	import { FireguardHelper } from '$lib/core/helpers/fireguard.helper';
 
+	/**
+	 * @description
+	 * Failure handler
+	 *
+	 * @param error The error to show
+	 */
 	const onFailure = (error: string): void => {
 		appStore.stopLoader();
 		appStore.raiseError(error);
@@ -24,6 +30,12 @@
 		FireguardHelper.navigate(Page.Failure);
 	};
 
+	/**
+	 * @description
+	 * Success handler
+	 *
+	 * @param token The token to send back
+	 */
 	const onSuccess = (token: string): void => {
 		appStore.clearError();
 		appStore.registerToken(token);
