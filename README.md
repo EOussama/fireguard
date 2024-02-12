@@ -8,6 +8,7 @@
 <p align="center">
     <img src="https://img.shields.io/github/license/eoussama/fireguard" />
     <img src="https://github.com/eoussama/fireguard/actions/workflows/publish.yml/badge.svg" />
+    <img src="https://img.shields.io/github/v/tag/eoussama/fireguard" />
     <img src="https://img.shields.io/github/languages/code-size/eoussama/fireguard" />
 </p>
 
