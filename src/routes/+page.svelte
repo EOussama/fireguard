@@ -1,35 +1,46 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { base } from '$app/paths';
-	import { goto } from '$app/navigation';
 	import { fly } from 'svelte/transition';
 
 	import Head from '$lib/components/head.svelte';
-	import Foot from '$lib/components/foot.svelte';
 	import Loader from '$lib/components/loader.svelte';
 
 	import { EventType, EventHelper } from '@eoussama/firemitt';
 	import type { BaseError, TFireguardConfig } from '@eoussama/firemitt';
 
-	import { Page } from '$lib/core/enums/page.enum';
 	import { appStore } from '$lib/core/stores/app.store';
+
+	import { Page } from '$lib/core/enums/page.enum';
+	import { AuthStatus } from '$lib/core/enums/auth-status.enum';
 
 	import { AuthHelper } from '$lib/core/helpers/auth.helper';
 	import { ConfigHelper } from '$lib/core/helpers/config.helper';
-	import { AuthStatus } from '$lib/core/enums/auth-status.enum';
+	import { FireguardHelper } from '$lib/core/helpers/fireguard.helper';
 
+	/**
+	 * @description
+	 * Failure handler
+	 *
+	 * @param error The error to show
+	 */
 	const onFailure = (error: string): void => {
 		appStore.stopLoader();
 		appStore.raiseError(error);
 
-		goto(`${base}/${Page.Failure}`);
+		FireguardHelper.navigate(Page.Failure);
 	};
 
+	/**
+	 * @description
+	 * Success handler
+	 *
+	 * @param token The token to send back
+	 */
 	const onSuccess = (token: string): void => {
 		appStore.clearError();
 		appStore.registerToken(token);
 
-		goto(`${base}/${Page.Success}`);
+		FireguardHelper.navigate(Page.Success);
 	};
 
 	onMount(() => {
@@ -74,8 +85,6 @@
 				<p>Google Authentication for <b>{$appStore.config?.name}</b>...</p>
 			</div>
 		{/if}
-
-		<Foot />
 	</div>
 </div>
 
@@ -83,13 +92,6 @@
 	.content {
 		margin: auto;
 		padding: 10px;
-
-		text-align: center;
-
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-		justify-content: center;
 
 		width: 100%;
 		max-width: 320px;
