@@ -3,6 +3,12 @@
 
 	/**
 	 * @description
+	 * If the button is primary
+	 */
+	export let primary: boolean = false;
+
+	/**
+	 * @description
 	 * The label of the button
 	 */
 	export let label: string = 'Click Me!';
@@ -22,7 +28,7 @@
 	const onClick = (e: MouseEvent) => dispatch('click', { e });
 </script>
 
-<button class="btn" on:click={onClick}>{label}</button>
+<button class="btn" class:btn--primary={primary} on:click={onClick}>{label}</button>
 
 <style lang="scss">
 	.btn {
@@ -40,7 +46,15 @@
 		background-color: rgba(var(--color-primary-rgb), 0.2);
 
 		&:hover {
-			background-color: rgba(var(--color-primary-rgb), 0.5);
+			background-color: rgba(var(--color-primary-rgb), 0.4);
+		}
+
+		&--primary {
+			background-color: rgba(var(--color-primary-rgb), 0.4);
+
+			&:hover {
+				background-color: rgba(var(--color-primary-rgb), 0.6);
+			}
 		}
 	}
 </style>

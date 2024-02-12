@@ -2,7 +2,7 @@
 	import Head from '$lib/components/head.svelte';
 	import Error from '$lib/components/error.svelte';
 	import Button from '$lib/components/button.svelte';
-	
+
 	import { Page } from '$lib/core/enums/page.enum';
 	import { AuthStatus } from '$lib/core/enums/auth-status.enum';
 
@@ -35,8 +35,8 @@
 	</div>
 
 	<div class="failure__foot">
-		<Button label="Retry" on:click={onRetry} />
 		<Button label="Close" on:click={onClose} />
+		<Button label="Retry" primary on:click={onRetry} />
 	</div>
 </div>
 
